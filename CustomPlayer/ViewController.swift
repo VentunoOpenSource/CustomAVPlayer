@@ -10,11 +10,11 @@ import UIKit
 import AVKit
 
 
-protocol PlayerViewDelegate {
-    func onPlayerEventLog(mPlayerView:PlayerView)
+protocol VtnPlayerViewDelegate {
+    func onPlayerEventLog(mPlayerView:VtnPlayerView)
 }
 
-class PlayerView {
+class VtnPlayerView {
     
     private var mPlayer:AVPlayer?
     public var mPlayerContainer:UIView?
@@ -27,7 +27,7 @@ class PlayerView {
     
     private var mPlayerLayer:AVPlayerLayer?
     
-    public var delegate:PlayerViewDelegate?
+    public var delegate:VtnPlayerViewDelegate?
     
     func loadPlayer()
     {
@@ -138,10 +138,7 @@ class PlayerView {
         }
         
         return "PREPARING"
-        
     }
-    
-    
     
 }
    
@@ -152,7 +149,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var mPlayerContainer: UIView!
     
-    private var mPlayerView:PlayerView?
+    private var mPlayerView:VtnPlayerView?
     
     @IBOutlet weak var mTimeLabel: UILabel!
     @IBOutlet weak var mStatusLabel: UILabel!
@@ -162,7 +159,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mPlayerView = PlayerView();
+        mPlayerView = VtnPlayerView();
         mPlayerView?.mPlayerContainer = self.mPlayerContainer
         mPlayerView?.loadPlayer()
         mPlayerView?.delegate = self
@@ -195,8 +192,8 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController : PlayerViewDelegate {
-    func onPlayerEventLog(mPlayerView: PlayerView) {
+extension ViewController : VtnPlayerViewDelegate {
+    func onPlayerEventLog(mPlayerView: VtnPlayerView) {
         
         mTimeLabel?.text = "\(Int64(mPlayerView.getCurrentTime())) / \(Int64(mPlayerView.getDuration()))"
         
