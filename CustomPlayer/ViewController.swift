@@ -6,7 +6,7 @@
 //  Copyright © 2019 Ventuno Technologies. All rights reserved.
 //
 
-//Git Change name 
+//Git Change name check
 
 import UIKit
 import AVKit
@@ -174,6 +174,8 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+         // Network Check 
         if(Reachability.isConnectedToNetwork()){
             print("Network Available")
         }
