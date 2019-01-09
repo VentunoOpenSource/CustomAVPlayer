@@ -19,10 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eXN-bm-s7U">
-                                <rect key="frame" x="0.0" y="20" width="375" height="211"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="281.5"/>
                                 <color key="backgroundColor" red="0.92981806160000002" green="1" blue="0.13801965620000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="eXN-bm-s7U" secondAttribute="height" multiplier="16:9" id="8Cr-cQ-KLI"/>
+                                    <constraint firstAttribute="width" secondItem="eXN-bm-s7U" secondAttribute="height" multiplier="4:3" id="8Cr-cQ-KLI"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="atm-9g-Eoy">

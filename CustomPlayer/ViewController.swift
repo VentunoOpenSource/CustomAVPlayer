@@ -27,19 +27,22 @@ class VtnPlayerView {
     // Controls
     public var mPlayPauseButton:UIImageView?
     
+    private var mPlayerItem: AVPlayerItem?
     private var mPlayerLayer:AVPlayerLayer?
     
     public var delegate:VtnPlayerViewDelegate?
     
     func loadPlayer()
     {
-        //16:9
+        //16:9 mp4url
         //let mp4url = URL(string: "https://vtnpmds-a.akamaihd.net/669/17-10-2018/MMV1250715_TEN_640x360__H41QKIPR.mp4")
         
         //m3u8 without key
-        let mp4url = URL(string: "http://cds.y9e7n6h3.hwcdn.net/videos/3044/03-09-2018/m3u8/Sivappu-Malli-ClipZ.m3u8")
+        let m3u8url = URL(string: "http://cds.y9e7n6h3.hwcdn.net/videos/3044/03-09-2018/m3u8/Sivappu-Malli-ClipZ.m3u8")
         
-        mPlayer = AVPlayer(url: mp4url!)
+        mPlayerItem = AVPlayerItem(url: m3u8url!)
+        
+        mPlayer = AVPlayer(playerItem: mPlayerItem )
         mPlayerLayer = AVPlayerLayer(player: mPlayer!)
         
         //playerLayer.frame.size = CGSize(width: mPlayerContainer!.frame.width, height: mPlayerContainer!.frame.height)
@@ -49,11 +52,10 @@ class VtnPlayerView {
          mPlayerLayer?.videoGravity = AVLayerVideoGravity.resizeAspect
        // playerLayer?.videoGravity = AVLayerVideoGravity.resize
 
-
         mPlayerLayer?.frame = mPlayerContainer!.bounds
         mPlayerLayer?.backgroundColor = UIColor.blue.cgColor
         self.mPlayerContainer?.layer.addSublayer(mPlayerLayer!)
-        
+    
         
         //Below line works
        // playerLayer.frame.size = CGSize(width: screenWidth ,height: (screenWidth*9/16) )
@@ -64,6 +66,9 @@ class VtnPlayerView {
         
         
         mPlayer?.play()
+        
+        //Changing Quality
+        mPlayerItem?.preferredPeakBitRate = false ? (256+1) : 0
         
         pollPlayer()
     }
@@ -79,10 +84,45 @@ class VtnPlayerView {
         
     }
     
+    
     func pollPlayer()
     {
-        print("POLL PLAYER: \(String(describing: mPlayer?.status))")
+        //print("POLL PLAYER: \(String(describing: mPlayer?.status))")
         
+        var logStr:String = "";
+        logStr += getStatus()
+        
+        logStr += ", " + "\(self.mPlayerItem?.preferredPeakBitRate ?? 0)"
+        if let presentationSize = self.mPlayerItem?.presentationSize {
+            logStr += ", presentationSize: " + "\(presentationSize.width)x\(presentationSize.height)"
+        }
+        
+        //let accessLog = self.mPlayerItem?.accessLog()
+        
+        //logStr += ", " + "\(accessLog.debugDescription)"
+        //logStr += ", " + "\(accessLog?.description)"
+        
+        if let tracks = self.mPlayerItem?.tracks {
+            for track in tracks {
+                logStr += ", " + "\(track.isEnabled)"
+                logStr += ", " + "\(track.currentVideoFrameRate)"
+                
+                if let assetTrack = track.assetTrack {
+                    logStr += ", " + "\(assetTrack.trackID)"
+                    logStr += ", " + "\(assetTrack.mediaType.rawValue)"
+                    logStr += ", " + "\(assetTrack.estimatedDataRate)"
+                    logStr += ", " + "\(assetTrack.languageCode ?? "NIL")"
+                    
+                    for metadata in assetTrack.metadata {
+                        logStr += ", " + "\(metadata.stringValue ?? "")"
+                        logStr += ", " + "\(metadata.numberValue ?? 0)"
+                    }
+                }
+            }
+        }
+        
+        print(logStr)
+
         self.delegate?.onPlayerEventLog(mPlayerView: self)
         
         self.mDispatchWorkItem?.cancel()
@@ -175,7 +215,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-         // Network Check 
+         // Network Check
         if(Reachability.isConnectedToNetwork()){
             print("Network Available")
         }
@@ -214,6 +254,7 @@ extension ViewController : VtnPlayerViewDelegate {
         mTimeLabel?.text = "\(Int64(mPlayerView.getCurrentTime())) / \(Int64(mPlayerView.getDuration()))"
         
         mStatusLabel?.text = "\(mPlayerView.getStatus())"
+     
     }
 }
 
