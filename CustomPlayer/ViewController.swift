@@ -41,8 +41,8 @@ class VtnPlayerView {
         //16:9 mp4url
         //let mp4url = URL(string: "https://vtnpmds-a.akamaihd.net/669/17-10-2018/MMV1250715_TEN_640x360__H41QKIPR.mp4")
         
-        let url = "http://cds.y9e7n6h3.hwcdn.net/videos/3044/03-09-2018/m3u8/Sivappu-Malli-ClipZ.m3u8"
-        //let url = "http://cdnbakmi.kaltura.com/p/243342/sp/24334200/playManifest/entryId/0_uka1msg4/flavorIds/1_vqhfu6uy,1_80sohj7p/format/applehttp/protocol/http/a.m3u8"
+        //let url = "http://cds.y9e7n6h3.hwcdn.net/videos/3044/03-09-2018/m3u8/Sivappu-Malli-ClipZ.m3u8"
+        let url = "http://cdnbakmi.kaltura.com/p/243342/sp/24334200/playManifest/entryId/0_uka1msg4/flavorIds/1_vqhfu6uy,1_80sohj7p/format/applehttp/protocol/http/a.m3u8"
         
         
         //m3u8 without key
@@ -91,7 +91,14 @@ class VtnPlayerView {
                 if let group = mPlayerAsset.mediaSelectionGroup(forMediaCharacteristic: characteristic) {
                     // Print its options.
                     for option in group.options {
-                        print("  Option: \(option.displayName)")
+                        var logStr = "META "
+                        logStr += ", " + "\(option.displayName)"
+                        logStr += ", " + "\(option.locale?.languageCode ?? "UNKNOWN")"
+                        logStr += ", " + "\(option.isPlayable)"
+                        logStr += ", " + "\(option.mediaType.rawValue)"
+                        logStr += ", " + "\(option.extendedLanguageTag ?? "ELT")"
+                       
+                        print(logStr)
                     }
                 }
             }
