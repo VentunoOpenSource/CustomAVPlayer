@@ -159,6 +159,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         mPlayerView = VtnPlayerView();
         mPlayerView?.mPlayerContainer = self.mPlayerContainer
         mPlayerView?.loadPlayer()
@@ -169,6 +170,17 @@ class ViewController: UIViewController {
         mPlayerView?.viewDidLayoutSubviews()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if(Reachability.isConnectedToNetwork()){
+            print("Network Available")
+        }
+        else
+        {
+            print("Network Not Available")
+        }
+
+    }
     
     @IBAction func mOnPlayClicked(_ sender: Any) {
         mPlayerView?.play()
