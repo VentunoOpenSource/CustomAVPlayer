@@ -27,10 +27,14 @@ class VtnPlayerView {
     // Controls
     public var mPlayPauseButton:UIImageView?
     
+    private var mPlayerAsset:AVURLAsset?
     private var mPlayerItem: AVPlayerItem?
     private var mPlayerLayer:AVPlayerLayer?
     
     public var delegate:VtnPlayerViewDelegate?
+    
+    var observers:[NSKeyValueObservation]? = [NSKeyValueObservation]()
+    
     
     func loadPlayer()
     {
@@ -40,7 +44,11 @@ class VtnPlayerView {
         //m3u8 without key
         let m3u8url = URL(string: "http://cds.y9e7n6h3.hwcdn.net/videos/3044/03-09-2018/m3u8/Sivappu-Malli-ClipZ.m3u8")
         
-        mPlayerItem = AVPlayerItem(url: m3u8url!)
+        mPlayerAsset = AVURLAsset(url: m3u8url!)
+        
+        //mPlayerItem = AVPlayerItem(url: m3u8url!)
+        mPlayerItem = AVPlayerItem(asset: mPlayerAsset!)
+        
         
         mPlayer = AVPlayer(playerItem: mPlayerItem )
         mPlayerLayer = AVPlayerLayer(player: mPlayer!)
@@ -68,9 +76,10 @@ class VtnPlayerView {
         mPlayer?.play()
         
         //Changing Quality
-        mPlayerItem?.preferredPeakBitRate = false ? (256+1) : 0
+        mPlayerItem?.preferredPeakBitRate = false ? (512+1) : 0
         
         pollPlayer()
+        
     }
     
     func viewDidLayoutSubviews()
@@ -92,8 +101,8 @@ class VtnPlayerView {
         var logStr:String = "";
         logStr += getStatus()
         
-        logStr += ", " + "\(self.mPlayerItem?.preferredPeakBitRate ?? 0)"
-        if let presentationSize = self.mPlayerItem?.presentationSize {
+        logStr += ", " + "\(self.mPlayer?.currentItem?.preferredPeakBitRate ?? 0)"
+        if let presentationSize = self.mPlayer?.currentItem?.presentationSize {
             logStr += ", presentationSize: " + "\(presentationSize.width)x\(presentationSize.height)"
         }
         
@@ -102,7 +111,7 @@ class VtnPlayerView {
         //logStr += ", " + "\(accessLog.debugDescription)"
         //logStr += ", " + "\(accessLog?.description)"
         
-        if let tracks = self.mPlayerItem?.tracks {
+        if let tracks = self.mPlayer?.currentItem?.tracks {
             for track in tracks {
                 logStr += ", " + "\(track.isEnabled)"
                 logStr += ", " + "\(track.currentVideoFrameRate)"
@@ -120,6 +129,7 @@ class VtnPlayerView {
                 }
             }
         }
+        
         
         print(logStr)
 
@@ -180,6 +190,13 @@ class VtnPlayerView {
         }
         
         return "PREPARING"
+    }
+    
+    func getCurrentVideoQuality() -> String
+    {
+        let bitrate = mPlayer?.currentItem?.preferredPeakBitRate ?? 0
+        
+        return bitrate<=0 ? "Auto" : "\((Int64(bitrate)-1))p"
     }
     
 }
@@ -254,6 +271,8 @@ extension ViewController : VtnPlayerViewDelegate {
         mTimeLabel?.text = "\(Int64(mPlayerView.getCurrentTime())) / \(Int64(mPlayerView.getDuration()))"
         
         mStatusLabel?.text = "\(mPlayerView.getStatus())"
+        
+        mExtraLabel?.text = "\(mPlayerView.getCurrentVideoQuality())"
      
     }
 }
