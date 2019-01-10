@@ -20,20 +20,21 @@ class VtnPlayerView {
     
     private var mPlayer:AVPlayer?
     public var mPlayerContainer:UIView?
-    
+    public var mPlayerAsset:AVAsset?
     private var mDispatchWorkItem:DispatchWorkItem?
 
     
     // Controls
     public var mPlayPauseButton:UIImageView?
     
-    private var mPlayerAsset:AVURLAsset?
+  
     private var mPlayerItem: AVPlayerItem?
     private var mPlayerLayer:AVPlayerLayer?
     
     public var delegate:VtnPlayerViewDelegate?
     
     var observers:[NSKeyValueObservation]? = [NSKeyValueObservation]()
+    private var mSelectedSubtitleLang:String?
     
     
     func loadPlayer()
@@ -41,8 +42,8 @@ class VtnPlayerView {
         //16:9 mp4url
         //let mp4url = URL(string: "https://vtnpmds-a.akamaihd.net/669/17-10-2018/MMV1250715_TEN_640x360__H41QKIPR.mp4")
         
-        let url = "http://cds.y9e7n6h3.hwcdn.net/videos/3044/03-09-2018/m3u8/Sivappu-Malli-ClipZ.m3u8"
-        //let url = "http://cdnbakmi.kaltura.com/p/243342/sp/24334200/playManifest/entryId/0_uka1msg4/flavorIds/1_vqhfu6uy,1_80sohj7p/format/applehttp/protocol/http/a.m3u8"
+        //let url = "http://cds.y9e7n6h3.hwcdn.net/videos/3044/03-09-2018/m3u8/Sivappu-Malli-ClipZ.m3u8"
+        let url = "http://cdnbakmi.kaltura.com/p/243342/sp/24334200/playManifest/entryId/0_uka1msg4/flavorIds/1_vqhfu6uy,1_80sohj7p/format/applehttp/protocol/http/a.m3u8"
         
         
         //m3u8 without key
@@ -104,13 +105,7 @@ class VtnPlayerView {
             }
             
             if let group = mPlayerAsset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristic.legible) {
-                let locale = Locale(identifier: "es-ES")
-                let options =
-                    AVMediaSelectionGroup.mediaSelectionOptions(from: group.options, with: locale)
-                if let option = options.first {
-                    // Select Spanish-language subtitle option
-                    mPlayerItem.select(option, in: group)
-                }
+                selectSubtitle("en-EN")
 
                 //Change subtitle text properties
                 if let kCMTextMarkupAttribute_RelativeFontSize = kCMTextMarkupAttribute_RelativeFontSize as? String, let kCMTextMarkupAttribute_ForegroundColorARGB = kCMTextMarkupAttribute_ForegroundColorARGB as? String {
@@ -172,7 +167,7 @@ class VtnPlayerView {
                 }
             }
         }
-        
+    
         
         print(logStr)
 
@@ -246,6 +241,7 @@ class VtnPlayerView {
     {
         if let mPlayerAsset = self.mPlayerAsset, let mPlayerItem = self.mPlayerItem {
             if let group = mPlayerAsset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristic.legible) {
+                self.mSelectedSubtitleLang = subtitleLang
                 let locale = Locale(identifier: subtitleLang)
                 let options =
                     AVMediaSelectionGroup.mediaSelectionOptions(from: group.options, with: locale)
@@ -262,6 +258,20 @@ class VtnPlayerView {
         mPlayerItem?.preferredPeakBitRate = mQuality>0 ? (mQuality+1) : 0
     }
     
+    func toggleSubtitleVisibility(_ mShow:Bool)
+    {
+        if(mShow) {
+            if let mSelectedSubtitleLang = self.mSelectedSubtitleLang {
+                selectSubtitle(mSelectedSubtitleLang)
+            }
+        }
+        else {
+            if let group = mPlayer?.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristic.legible) {
+                mPlayer?.currentItem?.select(nil, in: group)
+            }
+        }
+    }
+    
 }
    
 
@@ -272,6 +282,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var mPlayerContainer: UIView!
     
     private var mPlayerView:VtnPlayerView?
+   
     
     @IBOutlet weak var mTimeLabel: UILabel!
     @IBOutlet weak var mStatusLabel: UILabel!
@@ -328,10 +339,12 @@ class ViewController: UIViewController {
     
     
     @IBAction func mOnSubtitle(_ sender: Any) {
+        mPlayerView?.toggleSubtitleVisibility(true)
     }
     
     
     @IBAction func mOffSubtitle(_ sender: Any) {
+        mPlayerView?.toggleSubtitleVisibility(false)
     }
     
     @IBAction func mSubtileEnglish(_ sender: Any) {
