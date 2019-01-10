@@ -111,6 +111,13 @@ class VtnPlayerView {
                     // Select Spanish-language subtitle option
                     mPlayerItem.select(option, in: group)
                 }
+                
+                //Change subtitle text properties
+                if let kCMTextMarkupAttribute_RelativeFontSize = kCMTextMarkupAttribute_RelativeFontSize as? String, let kCMTextMarkupAttribute_ForegroundColorARGB = kCMTextMarkupAttribute_ForegroundColorARGB as? String {
+                    if let rule:AVTextStyleRule = AVTextStyleRule(textMarkupAttributes: [kCMTextMarkupAttribute_RelativeFontSize: 200, kCMTextMarkupAttribute_ForegroundColorARGB: [1, 1, 0, 0]]) {
+                        mPlayerItem.textStyleRules = [rule]
+                    }
+                }
             }
         }
         
