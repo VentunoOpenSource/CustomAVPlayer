@@ -26,42 +26,54 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="atm-9g-Eoy">
-                                <rect key="frame" x="0.0" y="537" width="375" height="130"/>
+                                <rect key="frame" x="0.0" y="517" width="375" height="150"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="mes-Nx-oYv">
-                                        <rect key="frame" x="0.0" y="5" width="375" height="120"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="mes-Nx-oYv">
+                                        <rect key="frame" x="0.0" y="7.5" width="375" height="135"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="pqp-Kl-rRW">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KgK-VG-SOD">
-                                                        <rect key="frame" x="0.0" y="0.0" width="107.5" height="30"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="109.5" height="30"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.65140845069999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                                                         <state key="normal" title="720p">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="mOn720p:" destination="BYZ-38-t0r" eventType="touchUpInside" id="a3e-gp-nA0"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o4m-dU-Gqx">
-                                                        <rect key="frame" x="117.5" y="0.0" width="71.5" height="30"/>
+                                                        <rect key="frame" x="119.5" y="0.0" width="72" height="30"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.65140845069999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <state key="normal" title="480p">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="mOn480p:" destination="BYZ-38-t0r" eventType="touchUpInside" id="E3I-tY-V61"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fUa-4e-fpl">
-                                                        <rect key="frame" x="199" y="0.0" width="69" height="30"/>
+                                                        <rect key="frame" x="201.5" y="0.0" width="72.5" height="30"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.65140845069999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <state key="normal" title="Extra">
+                                                        <state key="normal" title="256p">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="mOn256p:" destination="BYZ-38-t0r" eventType="touchUpInside" id="P2l-qg-EaH"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLg-Sz-gKy">
-                                                        <rect key="frame" x="278" y="0.0" width="97" height="30"/>
+                                                        <rect key="frame" x="284" y="0.0" width="91" height="30"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.65140845069999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <state key="normal" title="Extra">
+                                                        <state key="normal" title="Auto">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="mOnResetToAuto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="y6l-Im-Ygj"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
@@ -69,36 +81,48 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="txB-fL-v0y">
-                                                <rect key="frame" x="0.0" y="30" width="375" height="30"/>
+                                                <rect key="frame" x="0.0" y="35" width="375" height="30"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rQP-L5-kNh">
-                                                        <rect key="frame" x="0.0" y="0.0" width="98.5" height="30"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="95.5" height="30"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.65140845069999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
-                                                        <state key="normal" title="Subtile ON">
+                                                        <state key="normal" title="ON">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="mOnSubtitle:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RBU-Nb-4bW"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsL-Yb-A9Q">
-                                                        <rect key="frame" x="108.5" y="0.0" width="89.5" height="30"/>
+                                                        <rect key="frame" x="105.5" y="0.0" width="66.5" height="30"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.65140845069999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <state key="normal" title="Subtitle OFF">
+                                                        <state key="normal" title="OFF">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="mOffSubtitle:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ijh-Nd-wcP"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RBv-2W-bYo">
-                                                        <rect key="frame" x="208" y="0.0" width="85" height="30"/>
+                                                        <rect key="frame" x="182" y="0.0" width="66.5" height="30"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.65140845069999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <state key="normal" title="Sub English">
+                                                        <state key="normal" title="Eng">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="mSubtileEnglish:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Px0-hO-wSj"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LDb-rA-tx7">
-                                                        <rect key="frame" x="303" y="0.0" width="72" height="30"/>
+                                                        <rect key="frame" x="258.5" y="0.0" width="116.5" height="30"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.65140845069999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <state key="normal" title="Sub Tamil">
+                                                        <state key="normal" title="Tamil">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="mSubtitleTamil:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Qcx-IE-2tp"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
@@ -106,7 +130,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="6Oo-KO-jGF">
-                                                <rect key="frame" x="0.0" y="60" width="375" height="30"/>
+                                                <rect key="frame" x="0.0" y="70" width="375" height="30"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gOO-Ex-PBt">
                                                         <rect key="frame" x="0.0" y="0.0" width="133.5" height="30"/>
@@ -135,7 +159,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Sfz-Rk-3hs">
-                                                <rect key="frame" x="0.0" y="90" width="375" height="30"/>
+                                                <rect key="frame" x="0.0" y="105" width="375" height="30"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zo8-mF-j5o">
                                                         <rect key="frame" x="0.0" y="0.0" width="91" height="30"/>
@@ -188,7 +212,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="mes-Nx-oYv" firstAttribute="leading" secondItem="atm-9g-Eoy" secondAttribute="leading" id="O7F-Zh-We5"/>
-                                    <constraint firstAttribute="height" constant="130" id="T9p-gq-2n0"/>
+                                    <constraint firstAttribute="height" constant="150" id="T9p-gq-2n0"/>
                                     <constraint firstItem="mes-Nx-oYv" firstAttribute="centerX" secondItem="atm-9g-Eoy" secondAttribute="centerX" id="bIv-Dw-5vH"/>
                                     <constraint firstItem="mes-Nx-oYv" firstAttribute="centerY" secondItem="atm-9g-Eoy" secondAttribute="centerY" id="jhU-Q0-qPC"/>
                                     <constraint firstAttribute="trailing" secondItem="mes-Nx-oYv" secondAttribute="trailing" id="lpZ-rJ-chR"/>
@@ -214,51 +238,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" id="9k7-Iv-elk">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="3lL-ek-Db5">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
-                            <subviews>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rdk-p1-Me8">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c7j-ju-PY7">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
-                                            <state key="normal" title="Quality"/>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RSU-9e-mfd">
-                                            <rect key="frame" x="0.0" y="30" width="375" height="30"/>
-                                            <state key="normal" title="Subtitle"/>
-                                        </button>
-                                    </subviews>
-                                </stackView>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Hq7-Rk-bi5" userLabel="Quality Stack">
-                                    <rect key="frame" x="0.0" y="60" width="375" height="60"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mql-fU-5Ry">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
-                                            <state key="normal" title="1080p"/>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JWu-wV-wBv">
-                                            <rect key="frame" x="0.0" y="30" width="375" height="30"/>
-                                            <state key="normal" title="720p"/>
-                                        </button>
-                                    </subviews>
-                                </stackView>
-                            </subviews>
-                        </stackView>
-                    </subviews>
-                    <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstItem="3lL-ek-Db5" firstAttribute="leading" secondItem="9k7-Iv-elk" secondAttribute="leading" id="4Wh-kr-izS"/>
-                        <constraint firstAttribute="trailing" secondItem="3lL-ek-Db5" secondAttribute="trailing" id="g2u-7j-Hz0"/>
-                        <constraint firstItem="3lL-ek-Db5" firstAttribute="top" secondItem="9k7-Iv-elk" secondAttribute="top" id="llF-jT-bq0"/>
-                        <constraint firstAttribute="height" constant="200" id="sdh-Aa-hFL"/>
-                    </constraints>
-                    <viewLayoutGuide key="safeArea" id="Xv6-4l-foR"/>
-                </view>
             </objects>
             <point key="canvasLocation" x="37.600000000000001" y="26.53673163418291"/>
         </scene>

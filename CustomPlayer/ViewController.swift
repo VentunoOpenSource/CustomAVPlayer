@@ -41,8 +41,8 @@ class VtnPlayerView {
         //16:9 mp4url
         //let mp4url = URL(string: "https://vtnpmds-a.akamaihd.net/669/17-10-2018/MMV1250715_TEN_640x360__H41QKIPR.mp4")
         
-        //let url = "http://cds.y9e7n6h3.hwcdn.net/videos/3044/03-09-2018/m3u8/Sivappu-Malli-ClipZ.m3u8"
-        let url = "http://cdnbakmi.kaltura.com/p/243342/sp/24334200/playManifest/entryId/0_uka1msg4/flavorIds/1_vqhfu6uy,1_80sohj7p/format/applehttp/protocol/http/a.m3u8"
+        let url = "http://cds.y9e7n6h3.hwcdn.net/videos/3044/03-09-2018/m3u8/Sivappu-Malli-ClipZ.m3u8"
+        //let url = "http://cdnbakmi.kaltura.com/p/243342/sp/24334200/playManifest/entryId/0_uka1msg4/flavorIds/1_vqhfu6uy,1_80sohj7p/format/applehttp/protocol/http/a.m3u8"
         
         
         //m3u8 without key
@@ -111,7 +111,7 @@ class VtnPlayerView {
                     // Select Spanish-language subtitle option
                     mPlayerItem.select(option, in: group)
                 }
-                
+
                 //Change subtitle text properties
                 if let kCMTextMarkupAttribute_RelativeFontSize = kCMTextMarkupAttribute_RelativeFontSize as? String, let kCMTextMarkupAttribute_ForegroundColorARGB = kCMTextMarkupAttribute_ForegroundColorARGB as? String {
                     if let rule:AVTextStyleRule = AVTextStyleRule(textMarkupAttributes: [kCMTextMarkupAttribute_RelativeFontSize: 200, kCMTextMarkupAttribute_ForegroundColorARGB: [1, 1, 0, 0]]) {
@@ -242,6 +242,26 @@ class VtnPlayerView {
         return bitrate<=0 ? "Auto" : "\((Int64(bitrate)-1))p"
     }
     
+    func selectSubtitle(_ subtitleLang:String)
+    {
+        if let mPlayerAsset = self.mPlayerAsset, let mPlayerItem = self.mPlayerItem {
+            if let group = mPlayerAsset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristic.legible) {
+                let locale = Locale(identifier: subtitleLang)
+                let options =
+                    AVMediaSelectionGroup.mediaSelectionOptions(from: group.options, with: locale)
+                if let option = options.first {
+                    // Select Spanish-language subtitle option
+                    mPlayerItem.select(option, in: group)
+                }
+            }
+        }
+    }
+    
+    func setVideoQuality(_ mQuality:Double)
+    {
+        mPlayerItem?.preferredPeakBitRate = mQuality>0 ? (mQuality+1) : 0
+    }
+    
 }
    
 
@@ -304,6 +324,39 @@ class ViewController: UIViewController {
     }
     
     
+    // Subtitle Buttons
+    
+    
+    @IBAction func mOnSubtitle(_ sender: Any) {
+    }
+    
+    
+    @IBAction func mOffSubtitle(_ sender: Any) {
+    }
+    
+    @IBAction func mSubtileEnglish(_ sender: Any) {
+        mPlayerView?.selectSubtitle("en-EN")
+    }
+    
+    
+    @IBAction func mSubtitleTamil(_ sender: Any) {
+        mPlayerView?.selectSubtitle("fr-FR")
+    }
+    
+    @IBAction func mOn720p(_ sender: Any) {
+        mPlayerView?.setVideoQuality(1020)
+    }
+    
+    @IBAction func mOn480p(_ sender: Any) {
+        mPlayerView?.setVideoQuality(512)
+    }
+    
+    @IBAction func mOn256p(_ sender: Any) {
+        mPlayerView?.setVideoQuality(256)
+    }
+    @IBAction func mOnResetToAuto(_ sender: Any) {
+        mPlayerView?.setVideoQuality(0)
+    }
     
     
 }
