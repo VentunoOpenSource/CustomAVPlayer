@@ -10,6 +10,7 @@
 
 import UIKit
 import AVKit
+import MediaPlayer
 
 
 protocol VtnPlayerViewDelegate {
@@ -39,6 +40,7 @@ class VtnPlayerView {
     
     func loadPlayer()
     {
+        //cast application id: 3C048DDC
         //16:9 mp4url
         //let mp4url = URL(string: "https://vtnpmds-a.akamaihd.net/669/17-10-2018/MMV1250715_TEN_640x360__H41QKIPR.mp4")
         
@@ -56,6 +58,12 @@ class VtnPlayerView {
         
         
         mPlayer = AVPlayer(playerItem: mPlayerItem )
+       
+        // Casting
+        mPlayer?.allowsExternalPlayback=true
+        
+        
+        
         mPlayerLayer = AVPlayerLayer(player: mPlayer!)
         
         //playerLayer.frame.size = CGSize(width: mPlayerContainer!.frame.width, height: mPlayerContainer!.frame.height)
@@ -68,7 +76,14 @@ class VtnPlayerView {
         mPlayerLayer?.frame = mPlayerContainer!.bounds
         mPlayerLayer?.backgroundColor = UIColor.blue.cgColor
         self.mPlayerContainer?.layer.addSublayer(mPlayerLayer!)
-    
+        
+        if let mPlayerContainer = self.mPlayerContainer {
+            let myVolumeView = MPVolumeView(frame: mPlayerContainer.bounds)
+            myVolumeView.showsVolumeSlider = false
+            myVolumeView.showsRouteButton = true
+            
+            self.mPlayerContainer?.addSubview(myVolumeView)
+        }
         
         //Below line works
        // playerLayer.frame.size = CGSize(width: screenWidth ,height: (screenWidth*9/16) )
@@ -82,6 +97,7 @@ class VtnPlayerView {
         
         //Changing Quality
         mPlayerItem?.preferredPeakBitRate = false ? (512+1) : 0
+        
         
         
         if let mPlayerAsset = self.mPlayerAsset, let mPlayerItem = self.mPlayerItem {
@@ -255,11 +271,30 @@ class VtnPlayerView {
     
     func setVideoQuality(_ mQuality:Double)
     {
-        mPlayerItem?.preferredPeakBitRate = mQuality>0 ? (mQuality+1) : 0
+//
+//        let url = "http://cds.y9e7n6h3.hwcdn.net/videos/3044/03-09-2018/m3u8/Sivappu-Malli-ClipZ.m3u8"
+//        //let url = "http://cdnbakmi.kaltura.com/p/243342/sp/24334200/playManifest/entryId/0_uka1msg4/flavorIds/1_vqhfu6uy,1_80sohj7p/format/applehttp/protocol/http/a.m3u8"
+//
+//
+//        //m3u8 without ke
+//        let m3u8url = URL(string: url)
+//
+//        mPlayerItem = AVPlayerItem(url: m3u8url!)
+//
+//
+//
+//        mPlayerItem = AVPlayerItem(asset: mPlayerAsset!)
+//        
+//        mPlayer = AVPlayer(playerItem: mPlayerItem )
+//        mPlayerLayer = AVPlayerLayer(player: mPlayer!)
+//
+          mPlayerItem?.preferredPeakBitRate = mQuality>0 ? (mQuality+1) : 0
+        
     }
     
     func toggleSubtitleVisibility(_ mShow:Bool)
     {
+        
         if(mShow) {
             if let mSelectedSubtitleLang = self.mSelectedSubtitleLang {
                 selectSubtitle(mSelectedSubtitleLang)
@@ -288,6 +323,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var mStatusLabel: UILabel!
     @IBOutlet weak var mExtraLabel: UILabel!
     
+  
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -297,7 +334,14 @@ class ViewController: UIViewController {
         mPlayerView?.mPlayerContainer = self.mPlayerContainer
         mPlayerView?.loadPlayer()
         mPlayerView?.delegate = self
+        
+        
+      
+       
+       
     }
+   
+
     
     override func viewDidLayoutSubviews() {
         mPlayerView?.viewDidLayoutSubviews()
@@ -368,7 +412,8 @@ class ViewController: UIViewController {
         mPlayerView?.setVideoQuality(256)
     }
     @IBAction func mOnResetToAuto(_ sender: Any) {
-        mPlayerView?.setVideoQuality(0)
+//mPlayerView?.setVideoQuality(0)
+        
     }
     
     
