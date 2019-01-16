@@ -218,12 +218,21 @@
                                     <constraint firstAttribute="trailing" secondItem="mes-Nx-oYv" secondAttribute="trailing" id="lpZ-rJ-chR"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ooo-2M-Wal" customClass="GCKUICastButton">
+                                <rect key="frame" x="164.5" y="318.5" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="mCastButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OUd-BX-q6h"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.68134715030000004" blue="0.046299756419999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="atm-9g-Eoy" secondAttribute="bottom" id="4WH-7q-H3w"/>
+                            <constraint firstItem="Ooo-2M-Wal" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="K8G-k9-J3s"/>
                             <constraint firstItem="eXN-bm-s7U" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="LOR-S0-FaX"/>
                             <constraint firstItem="atm-9g-Eoy" firstAttribute="leading" secondItem="eXN-bm-s7U" secondAttribute="leading" id="Wjt-eg-YK5"/>
+                            <constraint firstItem="Ooo-2M-Wal" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Yee-FR-lYK"/>
                             <constraint firstItem="eXN-bm-s7U" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="bqw-tb-sSv"/>
                             <constraint firstItem="eXN-bm-s7U" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="dPp-Aw-pvX"/>
                             <constraint firstItem="eXN-bm-s7U" firstAttribute="trailing" secondItem="atm-9g-Eoy" secondAttribute="trailing" id="npo-2F-ngw"/>

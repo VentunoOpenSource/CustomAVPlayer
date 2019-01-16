@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B2E469EC12376524BD025AB /* Pods_CustomPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A86F766374ACCE3904D08D9F /* Pods_CustomPlayer.framework */; };
 		B13A7B6D21E47FBE0090FF1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A7B6C21E47FBE0090FF1C /* AppDelegate.swift */; };
 		B13A7B6F21E47FBE0090FF1C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A7B6E21E47FBE0090FF1C /* ViewController.swift */; };
 		B13A7B7221E47FBE0090FF1C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B13A7B7021E47FBE0090FF1C /* Main.storyboard */; };
@@ -17,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		94853E29C8B31A43F1034588 /* Pods-CustomPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomPlayer.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomPlayer/Pods-CustomPlayer.release.xcconfig"; sourceTree = "<group>"; };
+		A86F766374ACCE3904D08D9F /* Pods_CustomPlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CustomPlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC54A91611D32125EDD59A21 /* Pods-CustomPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomPlayer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomPlayer/Pods-CustomPlayer.debug.xcconfig"; sourceTree = "<group>"; };
 		B13A7B6921E47FBE0090FF1C /* CustomPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B13A7B6C21E47FBE0090FF1C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B13A7B6E21E47FBE0090FF1C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -33,17 +37,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B2E469EC12376524BD025AB /* Pods_CustomPlayer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		144B26F25E3FC9226E39EC04 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AC54A91611D32125EDD59A21 /* Pods-CustomPlayer.debug.xcconfig */,
+				94853E29C8B31A43F1034588 /* Pods-CustomPlayer.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		2E6CE7C8A6DE5A6AF6F4BE80 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A86F766374ACCE3904D08D9F /* Pods_CustomPlayer.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B13A7B6021E47FBE0090FF1C = {
 			isa = PBXGroup;
 			children = (
 				B13A7B6B21E47FBE0090FF1C /* CustomPlayer */,
 				B13A7B6A21E47FBE0090FF1C /* Products */,
+				144B26F25E3FC9226E39EC04 /* Pods */,
+				2E6CE7C8A6DE5A6AF6F4BE80 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,9 +101,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B13A7B7E21E47FC00090FF1C /* Build configuration list for PBXNativeTarget "CustomPlayer" */;
 			buildPhases = (
+				DFCEC7F9A4780A203647D7B2 /* [CP] Check Pods Manifest.lock */,
 				B13A7B6521E47FBE0090FF1C /* Sources */,
 				B13A7B6621E47FBE0090FF1C /* Frameworks */,
 				B13A7B6721E47FBE0090FF1C /* Resources */,
+				E4F88872B6E9530F3302994A /* [CP] Embed Pods Frameworks */,
+				EEA08168A4997589D924065A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -135,6 +162,65 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DFCEC7F9A4780A203647D7B2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CustomPlayer-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E4F88872B6E9530F3302994A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-CustomPlayer/Pods-CustomPlayer-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomPlayer/Pods-CustomPlayer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EEA08168A4997589D924065A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-CustomPlayer/Pods-CustomPlayer-resources.sh",
+				"${PODS_ROOT}/google-cast-sdk/GoogleCastSDK-ios-4.3.4_static/GoogleCast.framework/GoogleCastCoreResources.bundle",
+				"${PODS_ROOT}/google-cast-sdk/GoogleCastSDK-ios-4.3.4_static/GoogleCast.framework/GoogleCastUIResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleCastCoreResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleCastUIResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomPlayer/Pods-CustomPlayer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B13A7B6521E47FBE0090FF1C /* Sources */ = {
@@ -288,16 +374,14 @@
 		};
 		B13A7B7F21E47FC00090FF1C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AC54A91611D32125EDD59A21 /* Pods-CustomPlayer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24K62CK4V7;
 				INFOPLIST_FILE = CustomPlayer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ventuno.ott.app.CustomPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -307,16 +391,14 @@
 		};
 		B13A7B8021E47FC00090FF1C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 94853E29C8B31A43F1034588 /* Pods-CustomPlayer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24K62CK4V7;
 				INFOPLIST_FILE = CustomPlayer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ventuno.ott.app.CustomPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

@@ -8,19 +8,40 @@
 
 import UIKit
 import CoreData
+import GoogleCast
 
 @available(iOS 10.0, *)
 @available(iOS 10.0, *)
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate{
 
+    
+ 
+    
     var window: UIWindow?
+    private let appId = kGCKDefaultMediaReceiverApplicationID
+    let kDebugLoggingEnabled = true
+
+    
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        
+        let discoveryCriteria = GCKDiscoveryCriteria(applicationID: appId)
+        let castOptions = GCKCastOptions(discoveryCriteria: discoveryCriteria)
+        GCKCastContext.setSharedInstanceWith(castOptions)
+        GCKLogger.sharedInstance().delegate = self
+        
+        
+        
         return true
     }
+    
+    
+    
+    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -92,5 +113,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+}
+
+@available(iOS 10.0, *)
+extension AppDelegate: GCKLoggerDelegate {
+    
+    func logMessage(_ message: String,
+                    at level: GCKLoggerLevel,
+                    fromFunction function: String,
+                    location: String) {
+        if (kDebugLoggingEnabled) {
+            print(function + " - " + message)
+        }
+    }
 }
 

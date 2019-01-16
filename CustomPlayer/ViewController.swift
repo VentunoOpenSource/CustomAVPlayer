@@ -6,12 +6,12 @@
 //  Copyright © 2019 Ventuno Technologies. All rights reserved.
 //
 
-//Git Change name check
+
 
 import UIKit
 import AVKit
 import MediaPlayer
-
+import GoogleCast
 
 protocol VtnPlayerViewDelegate {
     func onPlayerEventLog(mPlayerView:VtnPlayerView)
@@ -23,7 +23,6 @@ class VtnPlayerView {
     public var mPlayerContainer:UIView?
     public var mPlayerAsset:AVAsset?
     private var mDispatchWorkItem:DispatchWorkItem?
-
     
     // Controls
     public var mPlayPauseButton:UIImageView?
@@ -133,7 +132,7 @@ class VtnPlayerView {
         }
         
         pollPlayer()
-        
+      
     }
     
     func viewDidLayoutSubviews()
@@ -324,8 +323,60 @@ class ViewController: UIViewController {
     @IBOutlet weak var mExtraLabel: UILabel!
     
   
+    private var sessionManager: GCKSessionManager!
+    private var castSession: GCKCastSession?
+    private var castMediaController: GCKUIMediaController!
+    private var volumeController: GCKUIDeviceVolumeController!
     
     
+    @IBAction func mCastButton(_ sender: Any) {
+        
+        
+        
+        let gcast_url = URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
+        guard let mediaURL = gcast_url else {
+            print("invalid mediaURL")
+            return
+        }
+        
+        let metadata = GCKMediaMetadata()
+        metadata.setString("Big Buck Bunny (2008)", forKey: kGCKMetadataKeyTitle)
+        metadata.setString("Big Buck Bunny tells the story of a giant rabbit with a heart bigger than " +
+            "himself. When one sunny day three rodents rudely harass him, something " +
+            "snaps... and the rabbit ain't no bunny anymore! In the typical cartoon " +
+            "tradition he prepares the nasty rodents a comical revenge.",
+                           forKey: kGCKMetadataKeySubtitle)
+        metadata.addImage(GCKImage(url: URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg")!,
+                                   width: 480,
+                                   height: 360))
+        
+        
+        
+       // let randomTimeIntervalThatYouShouldntUseIRL = TimeInterval(980)
+        
+
+        
+        let mediaInfoBuilder = GCKMediaInformationBuilder.init(contentURL: mediaURL)
+        mediaInfoBuilder.streamType = GCKMediaStreamType.none;
+        mediaInfoBuilder.contentType = "video/mp4"
+        mediaInfoBuilder.metadata = metadata;
+        
+        let mediaInformation:GCKMediaInformation = mediaInfoBuilder.build()
+        
+        
+        let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession
+        
+        if (castSession != nil) {
+            print("castSession wasn't nil, time to load the media!")
+            castSession?.remoteMediaClient?.loadMedia(mediaInformation)
+        }
+        
+        castSession?.remoteMediaClient?.play()
+        
+    }
+    
+  
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -335,6 +386,72 @@ class ViewController: UIViewController {
         mPlayerView?.loadPlayer()
         mPlayerView?.delegate = self
         
+        
+        
+        
+        // Google Cast
+       
+        self.sessionManager = GCKCastContext.sharedInstance().sessionManager
+        self.castMediaController = GCKUIMediaController()
+        self.volumeController = GCKUIDeviceVolumeController()
+        
+        
+       
+        
+        //Media Properties
+        
+                let metadata = GCKMediaMetadata()
+                metadata.setString("Big Buck Bunny (2008)", forKey: kGCKMetadataKeyTitle)
+                metadata.setString("Big Buck Bunny tells the story of a giant rabbit with a heart bigger than " +
+                    "himself. When one sunny day three rodents rudely harass him, something " +
+                    "snaps... and the rabbit ain't no bunny anymore! In the typical cartoon " +
+                    "tradition he prepares the nasty rodents a comical revenge.",
+                                   forKey: kGCKMetadataKeySubtitle)
+                metadata.addImage(GCKImage(url: URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg")!,
+                                           width: 480,
+                                           height: 360))
+        
+        
+                //Load Media
+        
+                let gcast_url = URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
+                guard let mediaURL = gcast_url else {
+                    print("invalid mediaURL")
+                    return
+                }
+        
+                let mediaInfoBuilder = GCKMediaInformationBuilder.init(contentURL: mediaURL)
+                mediaInfoBuilder.streamType = GCKMediaStreamType.none;
+                mediaInfoBuilder.contentType = "video/mp4"
+                mediaInfoBuilder.metadata = metadata;
+        
+        
+        let mediaInformation:GCKMediaInformation = mediaInfoBuilder.build()
+        
+        
+
+        castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession
+        if (castSession != nil) {
+            print("castSession wasn't nil, time to load the media!")
+             castSession?.remoteMediaClient?.loadMedia(mediaInformation)
+        }
+        else{
+            print("No Session")
+        }
+        
+        
+        
+//                guard let mediaInfo = mediaInformation else {
+//                    print("invalid mediaInformation")
+//                    return
+//                }
+        
+        
+        
+//                if let request = sessionManager.currentSession?.remoteMediaClient?.loadMedia(mediaInformation) {
+//                    request.delegate = self as! GCKRequestDelegate
+//                }
+
         
       
        
