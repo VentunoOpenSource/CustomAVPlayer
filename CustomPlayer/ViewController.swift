@@ -36,6 +36,7 @@ class VtnPlayerView {
     var observers:[NSKeyValueObservation]? = [NSKeyValueObservation]()
     private var mSelectedSubtitleLang:String?
     
+    private var mURL:String?
     
     func loadPlayer()
     {
@@ -44,11 +45,11 @@ class VtnPlayerView {
         //let mp4url = URL(string: "https://vtnpmds-a.akamaihd.net/669/17-10-2018/MMV1250715_TEN_640x360__H41QKIPR.mp4")
         
         //let url = "http://cds.y9e7n6h3.hwcdn.net/videos/3044/03-09-2018/m3u8/Sivappu-Malli-ClipZ.m3u8"
-        let url = "http://cdnbakmi.kaltura.com/p/243342/sp/24334200/playManifest/entryId/0_uka1msg4/flavorIds/1_vqhfu6uy,1_80sohj7p/format/applehttp/protocol/http/a.m3u8"
+        mURL = "http://cdnbakmi.kaltura.com/p/243342/sp/24334200/playManifest/entryId/0_uka1msg4/flavorIds/1_vqhfu6uy,1_80sohj7p/format/applehttp/protocol/http/a.m3u8"
         
         
         //m3u8 without key
-        let m3u8url = URL(string: url)
+        let m3u8url = URL(string: mURL!)
         
         mPlayerAsset = AVURLAsset(url: m3u8url!)
         
@@ -146,6 +147,74 @@ class VtnPlayerView {
         
     }
     
+    //Mark: GoogleCast
+    
+    func startGoogleCast()
+    {
+        
+        mPlayer?.pause()
+        
+        
+        
+        
+    //    let gcast_url = URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
+        let gcast_url = URL(string: mURL!)
+        guard let mediaURL = gcast_url else{
+            print("invalid mediaURL")
+            return
+        }
+        
+        
+        
+        let metadata = GCKMediaMetadata()
+        metadata.setString("Big Buck Bunny (2008)", forKey: kGCKMetadataKeyTitle)
+        metadata.setString("Big Buck Bunny tells the story of a giant rabbit with a heart bigger than " +
+            "himself. When one sunny day three rodents rudely harass him, something " +
+            "snaps... and the rabbit ain't no bunny anymore! In the typical cartoon " +
+            "tradition he prepares the nasty rodents a comical revenge.",
+                           forKey: kGCKMetadataKeySubtitle)
+        metadata.addImage(GCKImage(url: URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg")!,
+                                   width: 480,
+                                   height: 360))
+        
+        
+        
+        // let randomTimeIntervalThatYouShouldntUseIRL = TimeInterval(980)
+        
+        
+        
+        let mediaInfoBuilder = GCKMediaInformationBuilder.init(contentURL: mediaURL)
+        mediaInfoBuilder.streamType = GCKMediaStreamType.none;
+        mediaInfoBuilder.contentType = "video/mp4"
+        mediaInfoBuilder.metadata = metadata;
+        
+        
+        
+        
+        
+        
+        let mediaInformation:GCKMediaInformation = mediaInfoBuilder.build()
+        
+        
+        let mediaLoadOptions:GCKMediaLoadOptions = GCKMediaLoadOptions.init()
+        mediaLoadOptions.playPosition = getCurrentTime()
+        
+        
+        let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession
+        
+        if (castSession != nil) {
+            print("castSession wasn't nil, time to load the media!")
+           // castSession?.remoteMediaClient?.loadMedia(mediaInformation)
+            castSession?.remoteMediaClient?.loadMedia(mediaInformation, with: mediaLoadOptions)
+            //castSession?.remoteMediaClient?.loadMedia(mediaInformation, autoplay: true, playPosition: 30)
+        }
+        
+        
+        //castSession?.remoteMediaClient?.play()
+        
+       
+        
+    }
     
     func pollPlayer()
     {
@@ -331,48 +400,7 @@ class ViewController: UIViewController {
     
     @IBAction func mCastButton(_ sender: Any) {
         
-        
-        
-        let gcast_url = URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
-        guard let mediaURL = gcast_url else {
-            print("invalid mediaURL")
-            return
-        }
-        
-        let metadata = GCKMediaMetadata()
-        metadata.setString("Big Buck Bunny (2008)", forKey: kGCKMetadataKeyTitle)
-        metadata.setString("Big Buck Bunny tells the story of a giant rabbit with a heart bigger than " +
-            "himself. When one sunny day three rodents rudely harass him, something " +
-            "snaps... and the rabbit ain't no bunny anymore! In the typical cartoon " +
-            "tradition he prepares the nasty rodents a comical revenge.",
-                           forKey: kGCKMetadataKeySubtitle)
-        metadata.addImage(GCKImage(url: URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg")!,
-                                   width: 480,
-                                   height: 360))
-        
-        
-        
-       // let randomTimeIntervalThatYouShouldntUseIRL = TimeInterval(980)
-        
-
-        
-        let mediaInfoBuilder = GCKMediaInformationBuilder.init(contentURL: mediaURL)
-        mediaInfoBuilder.streamType = GCKMediaStreamType.none;
-        mediaInfoBuilder.contentType = "video/mp4"
-        mediaInfoBuilder.metadata = metadata;
-        
-        let mediaInformation:GCKMediaInformation = mediaInfoBuilder.build()
-        
-        
-        let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession
-        
-        if (castSession != nil) {
-            print("castSession wasn't nil, time to load the media!")
-            castSession?.remoteMediaClient?.loadMedia(mediaInformation)
-        }
-        
-        castSession?.remoteMediaClient?.play()
-        
+        mPlayerView?.startGoogleCast()
     }
     
   
@@ -386,74 +414,6 @@ class ViewController: UIViewController {
         mPlayerView?.loadPlayer()
         mPlayerView?.delegate = self
         
-        
-        
-        
-        // Google Cast
-       
-        self.sessionManager = GCKCastContext.sharedInstance().sessionManager
-        self.castMediaController = GCKUIMediaController()
-        self.volumeController = GCKUIDeviceVolumeController()
-        
-        
-       
-        
-        //Media Properties
-        
-                let metadata = GCKMediaMetadata()
-                metadata.setString("Big Buck Bunny (2008)", forKey: kGCKMetadataKeyTitle)
-                metadata.setString("Big Buck Bunny tells the story of a giant rabbit with a heart bigger than " +
-                    "himself. When one sunny day three rodents rudely harass him, something " +
-                    "snaps... and the rabbit ain't no bunny anymore! In the typical cartoon " +
-                    "tradition he prepares the nasty rodents a comical revenge.",
-                                   forKey: kGCKMetadataKeySubtitle)
-                metadata.addImage(GCKImage(url: URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg")!,
-                                           width: 480,
-                                           height: 360))
-        
-        
-                //Load Media
-        
-                let gcast_url = URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
-                guard let mediaURL = gcast_url else {
-                    print("invalid mediaURL")
-                    return
-                }
-        
-                let mediaInfoBuilder = GCKMediaInformationBuilder.init(contentURL: mediaURL)
-                mediaInfoBuilder.streamType = GCKMediaStreamType.none;
-                mediaInfoBuilder.contentType = "video/mp4"
-                mediaInfoBuilder.metadata = metadata;
-        
-        
-        let mediaInformation:GCKMediaInformation = mediaInfoBuilder.build()
-        
-        
-
-        castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession
-        if (castSession != nil) {
-            print("castSession wasn't nil, time to load the media!")
-             castSession?.remoteMediaClient?.loadMedia(mediaInformation)
-        }
-        else{
-            print("No Session")
-        }
-        
-        
-        
-//                guard let mediaInfo = mediaInformation else {
-//                    print("invalid mediaInformation")
-//                    return
-//                }
-        
-        
-        
-//                if let request = sessionManager.currentSession?.remoteMediaClient?.loadMedia(mediaInformation) {
-//                    request.delegate = self as! GCKRequestDelegate
-//                }
-
-        
-      
        
        
     }
