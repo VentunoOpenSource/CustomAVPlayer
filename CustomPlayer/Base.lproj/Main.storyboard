@@ -219,8 +219,8 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ooo-2M-Wal" customClass="GCKUICastButton">
-                                <rect key="frame" x="164.5" y="318.5" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                                <rect key="frame" x="166" y="318.5" width="43" height="30"/>
+                                <state key="normal" title="GCast"/>
                                 <connections>
                                     <action selector="mCastButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OUd-BX-q6h"/>
                                 </connections>
@@ -232,6 +232,14 @@
                                     <constraint firstAttribute="height" constant="150" id="4wS-l0-0ab"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5lO-ub-6XW">
+                                <rect key="frame" x="236" y="286" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="PIP"/>
+                                <connections>
+                                    <action selector="mStartPIP:" destination="BYZ-38-t0r" eventType="touchUpInside" id="voV-qP-KL6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.68134715030000004" blue="0.046299756419999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>

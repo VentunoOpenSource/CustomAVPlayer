@@ -21,6 +21,7 @@
 		94853E29C8B31A43F1034588 /* Pods-CustomPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomPlayer.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomPlayer/Pods-CustomPlayer.release.xcconfig"; sourceTree = "<group>"; };
 		A86F766374ACCE3904D08D9F /* Pods_CustomPlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CustomPlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC54A91611D32125EDD59A21 /* Pods-CustomPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomPlayer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomPlayer/Pods-CustomPlayer.debug.xcconfig"; sourceTree = "<group>"; };
+		B1233B2D21F1DEC800169233 /* CustomPlayer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CustomPlayer.entitlements; sourceTree = "<group>"; };
 		B13A7B6921E47FBE0090FF1C /* CustomPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B13A7B6C21E47FBE0090FF1C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B13A7B6E21E47FBE0090FF1C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +83,7 @@
 		B13A7B6B21E47FBE0090FF1C /* CustomPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				B1233B2D21F1DEC800169233 /* CustomPlayer.entitlements */,
 				B1B8632821E5D3470040AB08 /* VtnReachability.swift */,
 				B13A7B6C21E47FBE0090FF1C /* AppDelegate.swift */,
 				B13A7B6E21E47FBE0090FF1C /* ViewController.swift */,
@@ -129,6 +131,14 @@
 				TargetAttributes = {
 					B13A7B6821E47FBE0090FF1C = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.AccessWiFi = {
+								enabled = 1;
+							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -377,6 +387,7 @@
 			baseConfigurationReference = AC54A91611D32125EDD59A21 /* Pods-CustomPlayer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CustomPlayer/CustomPlayer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24K62CK4V7;
 				INFOPLIST_FILE = CustomPlayer/Info.plist;
@@ -397,6 +408,7 @@
 			baseConfigurationReference = 94853E29C8B31A43F1034588 /* Pods-CustomPlayer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CustomPlayer/CustomPlayer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24K62CK4V7;
 				INFOPLIST_FILE = CustomPlayer/Info.plist;

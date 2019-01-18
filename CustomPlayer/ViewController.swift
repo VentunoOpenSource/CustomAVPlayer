@@ -30,7 +30,7 @@ class VtnPlayerView {
     
   
     private var mPlayerItem: AVPlayerItem?
-    private var mPlayerLayer:AVPlayerLayer?
+    public var mPlayerLayer:AVPlayerLayer?
     
     public var delegate:VtnPlayerViewDelegate?
     
@@ -40,6 +40,8 @@ class VtnPlayerView {
     private var mURL:String?
     private var castSession:GCKCastSession?
     private var mediaInformation: GCKMediaInformation?
+    
+   
     
     
     func loadPlayer()
@@ -65,6 +67,7 @@ class VtnPlayerView {
        
         // Casting
         mPlayer?.allowsExternalPlayback=true
+        
         
         
         
@@ -104,6 +107,11 @@ class VtnPlayerView {
         
         
         
+     
+        
+        
+        
+        
         if let mPlayerAsset = self.mPlayerAsset, let mPlayerItem = self.mPlayerItem {
             for characteristic in mPlayerAsset.availableMediaCharacteristicsWithMediaSelectionOptions {
                 print("\(characteristic)")
@@ -136,11 +144,14 @@ class VtnPlayerView {
             }
         }
         
-        pollPlayer()
+        //pollPlayer()
         
      
         
     }
+    
+    
+    
     
     func viewDidLayoutSubviews()
     {
@@ -208,7 +219,7 @@ class VtnPlayerView {
         mediaInfoBuilder.streamType = GCKMediaStreamType.none;
         mediaInfoBuilder.contentType = "video/mp4"
         mediaInfoBuilder.metadata = metadata;
-        
+
         mediaInfoBuilder.mediaTracks = tracks;
         
         
@@ -496,6 +507,10 @@ class ViewController: UIViewController,GCKUIMiniMediaControlsViewControllerDeleg
         mPlayerView?.loadPlayer()
         mPlayerView?.delegate = self
         
+        
+
+        //Mark: Mini Player Support
+        
         let castContext = GCKCastContext.sharedInstance()
         self.miniMediaControlsViewController = castContext.createMiniMediaControlsViewController()
         self.miniMediaControlsViewController.delegate = self
@@ -618,8 +633,52 @@ class ViewController: UIViewController,GCKUIMiniMediaControlsViewControllerDeleg
         
     }
     
+    @IBAction func mStartPIP(_ sender: Any) {
+
+        
+      
+        let pictureInPictureController:AVPictureInPictureController?
+        
+        if AVPictureInPictureController.isPictureInPictureSupported() {
+            // Create new controller passing reference to the AVPlayerLayer
+            pictureInPictureController = AVPictureInPictureController(playerLayer: (mPlayerView?.mPlayerLayer)!)
+            pictureInPictureController!.delegate = self
+            let keyPath = #keyPath(AVPictureInPictureController.isPictureInPicturePossible)
+//            pictureInPictureController.addObserver(self,
+//                                                   forKeyPath: keyPath,
+//                                                   options: [.initial, .new],
+//                                                   context: &pictureInPictureControllerContext)
+            pictureInPictureController!.addObserver(self, forKeyPath: keyPath, options: [.new], context: nil)
+            
+            
+        } else {
+            // PiP not supported by current device. Disable PiP button.
+            print(" PIP Not Supported")
+          
+            
+        }
+        
+      
+        
+    }
     
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        guard keyPath == "isPictureInPicturePossible" else {
+            return
+        }
+        
+        //#9 read the KVO notification for the property isPictureInPicturePossible
+        if let pipController = object as? AVPictureInPictureController {
+            if pipController.isPictureInPicturePossible {
+                //Video can be played in PIP mode.
+                pipController.startPictureInPicture()
+            }
+        }
+        
+    }
+
 }
+
 
 extension ViewController : VtnPlayerViewDelegate {
     func onPlayerEventLog(mPlayerView: VtnPlayerView) {
@@ -630,6 +689,34 @@ extension ViewController : VtnPlayerViewDelegate {
         
         mExtraLabel?.text = "\(mPlayerView.getCurrentVideoQuality())"
      
+    }
+}
+
+extension ViewController: AVPictureInPictureControllerDelegate {
+    
+    func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
+        //Update video controls of main player to reflect the current state of the video playback.
+        //You may want to update the video scrubber position.
+    }
+    
+    func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        //Handle PIP will start event
+    }
+    
+    func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        //Handle PIP did start event
+    }
+    
+    func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, failedToStartPictureInPictureWithError error: Error) {
+        //Handle PIP failed to start event
+    }
+    
+    func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        //Handle PIP will stop event
+    }
+    
+    func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        //Handle PIP did start event
     }
 }
 

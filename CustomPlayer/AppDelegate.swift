@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import GoogleCast
+import AVFoundation
 
 @available(iOS 10.0, *)
 @available(iOS 10.0, *)
@@ -45,7 +46,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         window = UIWindow(frame: UIScreen.main.bounds)
         window!.rootViewController = castContainerVC
         window!.makeKeyAndVisible()
-
+        
+        
+        if #available(iOS 10.0, *) {
+            try! AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback)
+        }
+        else {
+            // Workaround until https://forums.swift.org/t/using-methods-marked-unavailable-in-swift-4-2/14949 isn't fixed
+            AVAudioSession.sharedInstance().perform(NSSelectorFromString("setCategory:error:"), with: AVAudioSession.Category.playback)
+        }
+    
         return true
     }
     
@@ -61,6 +71,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
