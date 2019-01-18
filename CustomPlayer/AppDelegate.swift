@@ -34,8 +34,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         GCKCastContext.setSharedInstanceWith(castOptions)
         GCKLogger.sharedInstance().delegate = self
         
-        
-        
+        GCKCastContext.sharedInstance().useDefaultExpandedMediaControls = true
+
+        // Wrap main view in the GCKUICastContainerViewController and display the mini controller.
+        let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let navigationController = appStoryboard.instantiateViewController(withIdentifier: "MainNavigation")
+        let castContainerVC =
+            GCKCastContext.sharedInstance().createCastContainerController(for: navigationController)
+        castContainerVC.miniMediaControlsItemEnabled = true
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window!.rootViewController = castContainerVC
+        window!.makeKeyAndVisible()
+
         return true
     }
     

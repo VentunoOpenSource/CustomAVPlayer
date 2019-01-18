@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		7B2E469EC12376524BD025AB /* Pods_CustomPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A86F766374ACCE3904D08D9F /* Pods_CustomPlayer.framework */; };
+		B12F9E3821F0837C00B34A38 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A7B6E21E47FBE0090FF1C /* ViewController.swift */; };
 		B13A7B6D21E47FBE0090FF1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A7B6C21E47FBE0090FF1C /* AppDelegate.swift */; };
-		B13A7B6F21E47FBE0090FF1C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A7B6E21E47FBE0090FF1C /* ViewController.swift */; };
 		B13A7B7221E47FBE0090FF1C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B13A7B7021E47FBE0090FF1C /* Main.storyboard */; };
 		B13A7B7521E47FBE0090FF1C /* CustomPlayer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B13A7B7321E47FBE0090FF1C /* CustomPlayer.xcdatamodeld */; };
 		B13A7B7721E47FC00090FF1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B13A7B7621E47FC00090FF1C /* Assets.xcassets */; };
@@ -229,7 +229,7 @@
 			files = (
 				B13A7B7521E47FBE0090FF1C /* CustomPlayer.xcdatamodeld in Sources */,
 				B1B8632921E5D3470040AB08 /* VtnReachability.swift in Sources */,
-				B13A7B6F21E47FBE0090FF1C /* ViewController.swift in Sources */,
+				B12F9E3821F0837C00B34A38 /* ViewController.swift in Sources */,
 				B13A7B6D21E47FBE0090FF1C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -381,7 +381,10 @@
 				DEVELOPMENT_TEAM = 24K62CK4V7;
 				INFOPLIST_FILE = CustomPlayer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ventuno.ott.app.CustomPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -398,7 +401,10 @@
 				DEVELOPMENT_TEAM = 24K62CK4V7;
 				INFOPLIST_FILE = CustomPlayer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ventuno.ott.app.CustomPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

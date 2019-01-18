@@ -17,6 +17,7 @@ protocol VtnPlayerViewDelegate {
     func onPlayerEventLog(mPlayerView:VtnPlayerView)
 }
 
+
 class VtnPlayerView {
     
     private var mPlayer:AVPlayer?
@@ -37,6 +38,9 @@ class VtnPlayerView {
     private var mSelectedSubtitleLang:String?
     
     private var mURL:String?
+    private var castSession:GCKCastSession?
+    private var mediaInformation: GCKMediaInformation?
+    
     
     func loadPlayer()
     {
@@ -133,7 +137,9 @@ class VtnPlayerView {
         }
         
         pollPlayer()
-      
+        
+     
+        
     }
     
     func viewDidLayoutSubviews()
@@ -164,7 +170,7 @@ class VtnPlayerView {
             return
         }
         
-        
+        //Meta Data Properties of the Video
         
         let metadata = GCKMediaMetadata()
         metadata.setString("Big Buck Bunny (2008)", forKey: kGCKMetadataKeyTitle)
@@ -178,43 +184,81 @@ class VtnPlayerView {
                                    height: 360))
         
         
-        
         // let randomTimeIntervalThatYouShouldntUseIRL = TimeInterval(980)
         
         
+        
+        // Caption Properties
+        
+        let captionsTrack = GCKMediaTrack.init(identifier: 1,
+                                               contentIdentifier: "https://github.com/brenopolanski/html5-video-webvtt-example/blob/master/MIB2-subtitles-pt-BR.vtt",
+                                               contentType: "text/vtt",
+                                               type: GCKMediaTrackType.text,
+                                               textSubtype: GCKMediaTextTrackSubtype.captions,
+                                               name: "English",
+                                               languageCode: "en",
+                                               customData: nil)
+        
+        let tracks=[captionsTrack]
+        
+        
+        // Media Informations
         
         let mediaInfoBuilder = GCKMediaInformationBuilder.init(contentURL: mediaURL)
         mediaInfoBuilder.streamType = GCKMediaStreamType.none;
         mediaInfoBuilder.contentType = "video/mp4"
         mediaInfoBuilder.metadata = metadata;
         
+        mediaInfoBuilder.mediaTracks = tracks;
         
         
         
         
-        
-        let mediaInformation:GCKMediaInformation = mediaInfoBuilder.build()
+        mediaInformation = mediaInfoBuilder.build()
         
         
         let mediaLoadOptions:GCKMediaLoadOptions = GCKMediaLoadOptions.init()
         mediaLoadOptions.playPosition = getCurrentTime()
         
         
-        let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession
+        castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession
+        
+        
+        
+        
         
         if (castSession != nil) {
             print("castSession wasn't nil, time to load the media!")
            // castSession?.remoteMediaClient?.loadMedia(mediaInformation)
-            castSession?.remoteMediaClient?.loadMedia(mediaInformation, with: mediaLoadOptions)
+            
+            
+            GCKCastContext.sharedInstance().presentDefaultExpandedMediaControls()
+            
+            castSession?.remoteMediaClient?.loadMedia(mediaInformation!, with: mediaLoadOptions)
+            
+            castSession?.remoteMediaClient?.setActiveTrackIDs([1])
+            
+           
             //castSession?.remoteMediaClient?.loadMedia(mediaInformation, autoplay: true, playPosition: 30)
         }
         
         
+        
+        //castSession?.remoteMediaClient?.add(<#T##listener: GCKRemoteMediaClientListener##GCKRemoteMediaClientListener#>)
+        
+        
         //castSession?.remoteMediaClient?.play()
         
-       
+if castSession?.remoteMediaClient?.notifyDidStartMediaSession() != nil{
+            
+            castSession?.remoteMediaClient?.setActiveTrackIDs([1])
+        }
+        
         
     }
+    
+
+    
     
     func pollPlayer()
     {
@@ -254,11 +298,17 @@ class VtnPlayerView {
     
         
         print(logStr)
+        
+        
+      
 
         self.delegate?.onPlayerEventLog(mPlayerView: self)
         
         self.mDispatchWorkItem?.cancel()
         self.mDispatchWorkItem = DispatchWorkItem { self.pollPlayer() }
+        
+        
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.750, execute: mDispatchWorkItem!)
     }
     
@@ -332,6 +382,7 @@ class VtnPlayerView {
                 if let option = options.first {
                     // Select Spanish-language subtitle option
                     mPlayerItem.select(option, in: group)
+                
                 }
             }
         }
@@ -380,7 +431,7 @@ class VtnPlayerView {
 
 
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,GCKUIMiniMediaControlsViewControllerDelegate {
 
     @IBOutlet weak var mPlayerContainer: UIView!
     
@@ -397,14 +448,45 @@ class ViewController: UIViewController {
     private var castMediaController: GCKUIMediaController!
     private var volumeController: GCKUIDeviceVolumeController!
     
+    @IBOutlet weak private var _miniMediaControlsContainerView: UIView!
+    
+    @IBOutlet weak var _miniMediaControlsHeightConstraint: NSLayoutConstraint!
+    
+    
+    private var miniMediaControlsViewController: GCKUIMiniMediaControlsViewController!
+    var miniMediaControlsViewEnabled = false {
+        didSet {
+            if self.isViewLoaded {
+                self.updateControlBarsVisibility()
+            }
+        }
+    }
+    
+    var overriddenNavigationController: UINavigationController?
+    
+    override var navigationController: UINavigationController? {
+        
+        get {
+            return overriddenNavigationController
+        }
+        
+        set {
+            overriddenNavigationController = newValue
+        }
+    }
+    var miniMediaControlsItemEnabled = false
+
+    let kCastControlBarsAnimationDuration: TimeInterval = 0.20
+
     
     @IBAction func mCastButton(_ sender: Any) {
         
         mPlayerView?.startGoogleCast()
+        
+        
     }
     
-  
-
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -414,10 +496,53 @@ class ViewController: UIViewController {
         mPlayerView?.loadPlayer()
         mPlayerView?.delegate = self
         
-       
+        let castContext = GCKCastContext.sharedInstance()
+        self.miniMediaControlsViewController = castContext.createMiniMediaControlsViewController()
+        self.miniMediaControlsViewController.delegate = self
+        self.updateControlBarsVisibility()
+        self.installViewController(self.miniMediaControlsViewController,
+                                   inContainerView: self._miniMediaControlsContainerView)
        
     }
    
+    func updateControlBarsVisibility() {
+        if self.miniMediaControlsViewEnabled && self.miniMediaControlsViewController.active {
+            self._miniMediaControlsHeightConstraint.constant = self.miniMediaControlsViewController.minHeight
+            self.view.bringSubviewToFront(self._miniMediaControlsContainerView)
+        } else {
+            self._miniMediaControlsHeightConstraint.constant = 0
+        }
+        UIView.animate(withDuration: kCastControlBarsAnimationDuration, animations: {() -> Void in
+            self.view.layoutIfNeeded()
+        })
+        self.view.setNeedsLayout()
+    }
+    
+    func installViewController(_ viewController: UIViewController?, inContainerView containerView: UIView) {
+        if let viewController = viewController {
+            self.addChild(viewController)
+            viewController.view.frame = containerView.bounds
+            containerView.addSubview(viewController.view)
+            viewController.didMove(toParent: self)
+        }
+    }
+    
+    func uninstallViewController(_ viewController: UIViewController) {
+        viewController.willMove(toParent: nil)
+        viewController.view.removeFromSuperview()
+        viewController.removeFromParent()
+    }
+    
+    func miniMediaControlsViewController(_ miniMediaControlsViewController: GCKUIMiniMediaControlsViewController,
+                                         shouldAppear: Bool) {
+        self.updateControlBarsVisibility()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "NavigationVCEmbedSegue" {
+            self.navigationController = (segue.destination as? UINavigationController)
+        }
+    }
 
     
     override func viewDidLayoutSubviews() {

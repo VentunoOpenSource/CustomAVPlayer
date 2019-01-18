@@ -13,7 +13,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="CustomPlayer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainNavigation" id="BYZ-38-t0r" customClass="ViewController" customModule="CustomPlayer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -225,21 +225,33 @@
                                     <action selector="mCastButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OUd-BX-q6h"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o1v-LE-fAt">
+                                <rect key="frame" x="0.0" y="348.5" width="375" height="150"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="4wS-l0-0ab"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.68134715030000004" blue="0.046299756419999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="atm-9g-Eoy" secondAttribute="bottom" id="4WH-7q-H3w"/>
+                            <constraint firstItem="o1v-LE-fAt" firstAttribute="top" secondItem="Ooo-2M-Wal" secondAttribute="bottom" id="F7G-yO-254"/>
                             <constraint firstItem="Ooo-2M-Wal" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="K8G-k9-J3s"/>
                             <constraint firstItem="eXN-bm-s7U" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="LOR-S0-FaX"/>
+                            <constraint firstItem="o1v-LE-fAt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QVu-Cs-nAr"/>
                             <constraint firstItem="atm-9g-Eoy" firstAttribute="leading" secondItem="eXN-bm-s7U" secondAttribute="leading" id="Wjt-eg-YK5"/>
                             <constraint firstItem="Ooo-2M-Wal" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Yee-FR-lYK"/>
                             <constraint firstItem="eXN-bm-s7U" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="bqw-tb-sSv"/>
                             <constraint firstItem="eXN-bm-s7U" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="dPp-Aw-pvX"/>
                             <constraint firstItem="eXN-bm-s7U" firstAttribute="trailing" secondItem="atm-9g-Eoy" secondAttribute="trailing" id="npo-2F-ngw"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="o1v-LE-fAt" secondAttribute="trailing" id="tfw-yJ-4gz"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="_miniMediaControlsContainerView" destination="o1v-LE-fAt" id="at2-Vk-1cF"/>
+                        <outlet property="_miniMediaControlsHeightConstraint" destination="4wS-l0-0ab" id="Lv3-Tq-HcT"/>
                         <outlet property="mExtraLabel" destination="wab-h6-nJQ" id="CEd-U9-kqZ"/>
                         <outlet property="mPlayerContainer" destination="eXN-bm-s7U" id="hlB-eY-4ak"/>
                         <outlet property="mStatusLabel" destination="2Qz-8d-dQ6" id="8Qb-7U-wQO"/>
