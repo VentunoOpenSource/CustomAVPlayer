@@ -51,8 +51,8 @@ class VtnPlayerView {
         //let mp4url = URL(string: "https://vtnpmds-a.akamaihd.net/669/17-10-2018/MMV1250715_TEN_640x360__H41QKIPR.mp4")
         
         //let url = "http://cds.y9e7n6h3.hwcdn.net/videos/3044/03-09-2018/m3u8/Sivappu-Malli-ClipZ.m3u8"
-        mURL = "http://cdnbakmi.kaltura.com/p/243342/sp/24334200/playManifest/entryId/0_uka1msg4/flavorIds/1_vqhfu6uy,1_80sohj7p/format/applehttp/protocol/http/a.m3u8"
-        
+      mURL = "http://cdnbakmi.kaltura.com/p/243342/sp/24334200/playManifest/entryId/0_uka1msg4/flavorIds/1_vqhfu6uy,1_80sohj7p/format/applehttp/protocol/http/a.m3u8"
+//mURL = "http://dummy.dum"
         
         //m3u8 without key
         let m3u8url = URL(string: mURL!)
@@ -146,11 +146,66 @@ class VtnPlayerView {
         
         //pollPlayer()
         
-     
+    // addPeriodicTimeObserver()
+        
+        
+        
+        
+        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.mPlayer?.currentItem, queue: .main) { [weak self] _ in
+            self?.mPlayer?.seek(to: CMTime.zero)
+            self?.mPlayer?.play()
+        }
+        NotificationCenter.default.addObserver(forName: .AVPlayerItemPlaybackStalled, object: self.mPlayer?.currentItem, queue: .main) { [weak self] _ in
+            print (" Media did not arrive in time to continue playback")
+        }
         
     }
     
-    
+    func addPeriodicTimeObserver() {
+        // Invoke callback every half second
+        let interval = CMTime(seconds: 0.5,
+                              preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        // Queue on which to invoke the callback
+        let mainQueue = DispatchQueue.main
+        
+        
+       
+        // Add time observer
+        let timeObserverToken =
+            mPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: mainQueue) {
+                [weak self] time in
+                // update player transport UI
+                print ("\( self?.getStatus() )")
+               // print ("\(self?.mPlayer?.actionAtItemEnd)")
+                //print ("Player Item Status : \(self?.mPlayerItem?.status)")
+                
+                
+                
+
+//                if let tracks = self.mPlayer?.currentItem?.tracks {
+//                    for track in tracks {
+//                        logStr += ", " + "\(track.isEnabled)"
+//                        logStr += ", " + "\(track.currentVideoFrameRate)"
+//
+//                        if let assetTrack = track.assetTrack {
+//                            logStr += ", " + "\(assetTrack.trackID)"
+//                            logStr += ", " + "\(assetTrack.mediaType.rawValue)"
+//                            logStr += ", " + "\(assetTrack.estimatedDataRate)"
+//                            logStr += ", " + "\(assetTrack.languageCode ?? "NIL")"
+//
+//                            for metadata in assetTrack.metadata {
+//                                logStr += ", " + "\(metadata.stringValue ?? "")"
+//                                logStr += ", " + "\(metadata.numberValue ?? 0)"
+//                            }
+//                        }
+//                    }
+//                }
+//
+                
+            
+        }
+    }
+
     
     
     func viewDidLayoutSubviews()
