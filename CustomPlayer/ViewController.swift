@@ -48,11 +48,15 @@ class VtnPlayerView {
     {
         //cast application id: 3C048DDC
         //16:9 mp4url
-        //let mp4url = URL(string: "https://vtnpmds-a.akamaihd.net/669/17-10-2018/MMV1250715_TEN_640x360__H41QKIPR.mp4")
+        let mp4url = URL(string: "https://vtnpmds-a.akamaihd.net/669/17-10-2018/MMV1250715_TEN_640x360__H41QKIPR.mp4")
         
         //let url = "http://cds.y9e7n6h3.hwcdn.net/videos/3044/03-09-2018/m3u8/Sivappu-Malli-ClipZ.m3u8"
-      mURL = "http://cdnbakmi.kaltura.com/p/243342/sp/24334200/playManifest/entryId/0_uka1msg4/flavorIds/1_vqhfu6uy,1_80sohj7p/format/applehttp/protocol/http/a.m3u8"
-//mURL = "http://dummy.dum"
+        
+        
+       // mURL = "https://vtnpmds-a.akamaihd.net/669/17-10-2018/MMV1250715_TEN_640x360__H41QKIPR.mp4"
+        mURL = "http://cdnbakmi.kaltura.com/p/243342/sp/24334200/playManifest/entryId/0_uka1msg4/flavorIds/1_vqhfu6uy,1_80sohj7p/format/applehttp/protocol/http/a.m3u8"
+        
+        //mURL = "http://dummy.dum"
         
         //m3u8 without key
         let m3u8url = URL(string: mURL!)
@@ -81,16 +85,10 @@ class VtnPlayerView {
        // playerLayer?.videoGravity = AVLayerVideoGravity.resize
 
         mPlayerLayer?.frame = mPlayerContainer!.bounds
-        mPlayerLayer?.backgroundColor = UIColor.blue.cgColor
+        //mPlayerLayer?.backgroundColor = UIColor.blue.cgColor
         self.mPlayerContainer?.layer.addSublayer(mPlayerLayer!)
         
-        if let mPlayerContainer = self.mPlayerContainer {
-            let myVolumeView = MPVolumeView(frame: mPlayerContainer.bounds)
-            myVolumeView.showsVolumeSlider = false
-            myVolumeView.showsRouteButton = true
-            
-            self.mPlayerContainer?.addSubview(myVolumeView)
-        }
+       
         
         //Below line works
        // playerLayer.frame.size = CGSize(width: screenWidth ,height: (screenWidth*9/16) )
@@ -137,14 +135,14 @@ class VtnPlayerView {
 
                 //Change subtitle text properties
                 if let kCMTextMarkupAttribute_RelativeFontSize = kCMTextMarkupAttribute_RelativeFontSize as? String, let kCMTextMarkupAttribute_ForegroundColorARGB = kCMTextMarkupAttribute_ForegroundColorARGB as? String {
-                    if let rule:AVTextStyleRule = AVTextStyleRule(textMarkupAttributes: [kCMTextMarkupAttribute_RelativeFontSize: 200, kCMTextMarkupAttribute_ForegroundColorARGB: [1, 1, 0, 0]]) {
+                    if let rule:AVTextStyleRule = AVTextStyleRule(textMarkupAttributes: [kCMTextMarkupAttribute_RelativeFontSize: 100, kCMTextMarkupAttribute_ForegroundColorARGB: [1, 1, 0, 0]]) {
                         mPlayerItem.textStyleRules = [rule]
                     }
                 }
             }
         }
         
-        //pollPlayer()
+        pollPlayer()
         
     // addPeriodicTimeObserver()
         
@@ -226,11 +224,8 @@ class VtnPlayerView {
         
         mPlayer?.pause()
         
-        
-        
-        
-    //    let gcast_url = URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
-        let gcast_url = URL(string: mURL!)
+        let gcast_url = URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
+       // let gcast_url = URL(string: mURL!)
         guard let mediaURL = gcast_url else{
             print("invalid mediaURL")
             return
@@ -518,6 +513,7 @@ class ViewController: UIViewController,GCKUIMiniMediaControlsViewControllerDeleg
     
     @IBOutlet weak var _miniMediaControlsHeightConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var mAirPlayView: UIView!
     
     private var miniMediaControlsViewController: GCKUIMiniMediaControlsViewController!
     var miniMediaControlsViewEnabled = false {
@@ -572,6 +568,15 @@ class ViewController: UIViewController,GCKUIMiniMediaControlsViewControllerDeleg
         self.updateControlBarsVisibility()
         self.installViewController(self.miniMediaControlsViewController,
                                    inContainerView: self._miniMediaControlsContainerView)
+        
+        //Mark: AirPlay
+        if let mAirPlayView = self.mAirPlayView {
+            let myVolumeView = MPVolumeView(frame: mAirPlayView.bounds)
+            myVolumeView.showsVolumeSlider = false
+            myVolumeView.showsRouteButton = true
+            
+            mAirPlayView.addSubview(myVolumeView)
+        }
        
     }
    
